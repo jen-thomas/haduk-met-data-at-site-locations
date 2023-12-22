@@ -12,4 +12,10 @@ Site locations: CSV file of named location with latitude and longitude of site.
 
 ## Using this repository
 
+1. Create a virtual environment `python3 -m venv venv` 
+2. Activate the virtual environment `. venv/bin/activate`
+3. Install the packages from `requirements.txt`: `pip3 install -r requirements.txt`
+4. Create a directory called `ceda_data` where the data will be downloaded
+
 ## Examples
+ 

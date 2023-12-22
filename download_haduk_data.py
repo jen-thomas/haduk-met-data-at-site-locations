@@ -35,17 +35,24 @@ def login_to_ceda_ftp(username, password):
     return ftp_object
 
 
-def get_ceda_ftp_data(ftp_object):
-    # loop through years
-    for year in range(2017, 2022):
-        # change the remote directory
-        ftp_object.cwd("/badc/ukmo-hadobs/data/insitu/MOHC/HadOBS/HadUK-Grid/v1.2.0.ceda/1km/tas/mon/v20230328")
-        # define filename
-        file = "tas_hadukgrid_uk_1km_mon_202001-202012.nc"
-        # copy the remote file to the local directory
+def construct_data_file_name(year):
+
+    file = "tas_hadukgrid_uk_1km_mon_%d01-%d12.nc" % (year, year)
+
+    return file
+
+
+def get_ceda_ftp_data(ftp_object, years):
+
+    # Change to the directory on the FTP site
+    ftp_object.cwd("/badc/ukmo-hadobs/data/insitu/MOHC/HadOBS/HadUK-Grid/v1.2.0.ceda/1km/tas/mon/v20230328")
+
+    # Get the data for each year
+    for year in years:
+        file = construct_data_file_name(year)
         ftp_object.retrbinary("RETR %s" % file, open(file, "wb").write)
 
-    # Close FTP connection
+    # Close the FTP connection
     ftp_object.close()
 
 
@@ -63,5 +70,6 @@ if __name__ == "__main__":
     password = get_ceda_ftp_password()
     ftp_object = login_to_ceda_ftp(username, password)
 
-    get_ceda_ftp_data(ftp_object)
+    years = [2018, 2019, 2020]
+    get_ceda_ftp_data(ftp_object, years)
 

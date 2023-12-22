@@ -5,11 +5,26 @@ import os
 
 
 def create_data_dir(dir_name):
+    """
+    Create the data directory where the CEDA files will be downloaded.
+
+    :param dir_name : str
+        Name of the data directory
+    :return : None
+
+    """
+
     if not os.path.isdir(dir_name):
         os.mkdir(dir_name)
 
 
 def get_ceda_ftp_username():
+    """
+    Get the username for the CEDA FTP site.
+
+    :return : str
+        Username for the FTP site
+    """
 
     username = os.environ.get("CEDA_FTP_USERNAME")
 
@@ -20,6 +35,13 @@ def get_ceda_ftp_username():
 
 
 def get_ceda_ftp_password():
+    """
+    Get the password for the CEDA FTP site.
+
+    :return : str
+        password for the FTP site
+    """
+
     password = os.environ.get("CEDA_FTP_PASSWORD")
 
     if password is None:
@@ -29,6 +51,15 @@ def get_ceda_ftp_password():
 
 
 def login_to_ceda_ftp(username, password):
+    """
+    Log in to the CEDA FTP site.
+
+    :param username : str
+    :param password : str
+
+    :return :
+        FTP object
+    """
 
     ftp_object = ftplib.FTP("ftp.ceda.ac.uk", username, password)
 
@@ -36,6 +67,16 @@ def login_to_ceda_ftp(username, password):
 
 
 def construct_data_file_name(year):
+    """
+    Create the file name to download from the FTP site. For these particular data, the file name includes the year so
+    this needs to be changed for each file.
+
+    :param year: int
+        Year of data collection
+
+    :return: str
+        File name
+    """
 
     file = "tas_hadukgrid_uk_1km_mon_%d01-%d12.nc" % (year, year)
 
@@ -43,7 +84,15 @@ def construct_data_file_name(year):
 
 
 def get_ceda_ftp_data(ftp_object, years):
+    """
+    Download data files from CEDA FTP. Save files in the data directory.
+    
+    :param ftp_object : ftpLib.FTP
+    :param years : list(int)
+        List of the years of interest
 
+    :return : None
+    """
     # Change to the directory on the FTP site
     ftp_object.cwd("/badc/ukmo-hadobs/data/insitu/MOHC/HadOBS/HadUK-Grid/v1.2.0.ceda/1km/tas/mon/v20230328")
 
@@ -54,10 +103,6 @@ def get_ceda_ftp_data(ftp_object, years):
 
     # Close the FTP connection
     ftp_object.close()
-
-
-def get_files_to_download():
-    return
 
 
 if __name__ == "__main__":

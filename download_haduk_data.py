@@ -61,7 +61,11 @@ def login_to_ceda_ftp(username, password):
         FTP object
     """
 
-    ftp_object = ftplib.FTP("ftp.ceda.ac.uk", username, password)
+    try:
+        ftp_object = ftplib.FTP("ftp.ceda.ac.uk", username, password)
+    except ftplib.error_perm:
+        print("Login to FTP site failed.")
+        raise SystemExit(1)
 
     return ftp_object
 
@@ -86,7 +90,7 @@ def construct_data_file_name(year):
 def get_ceda_ftp_data(ftp_object, years):
     """
     Download data files from CEDA FTP. Save files in the data directory.
-    
+
     :param ftp_object : ftpLib.FTP
     :param years : list(int)
         List of the years of interest
@@ -99,7 +103,11 @@ def get_ceda_ftp_data(ftp_object, years):
     # Get the data for each year
     for year in years:
         file = construct_data_file_name(year)
-        ftp_object.retrbinary("RETR %s" % file, open(file, "wb").write)
+        try:
+            print(f"Trying to get file: {file}")
+            ftp_object.retrbinary("RETR %s" % file, open(file, "wb").write)
+        except ftplib.all_errors as errors:
+            print(f"Not able to download file: {file}. Error: {errors}")
 
     # Close the FTP connection
     ftp_object.close()

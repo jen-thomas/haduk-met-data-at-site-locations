@@ -125,4 +125,4 @@ if __name__ == "__main__":
 
     years = [2018, 2019, 2020]
     get_ceda_ftp_data(ftp_object, years)
-
+    

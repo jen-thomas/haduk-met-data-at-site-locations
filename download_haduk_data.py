@@ -114,7 +114,7 @@ def get_ceda_ftp_data(ftp_object, years):
     ftp_object.close()
 
 
-if __name__ == "__main__":
+def main():
 
     ceda_data_dir = "ceda_data"
     create_data_dir(ceda_data_dir)
@@ -126,3 +126,7 @@ if __name__ == "__main__":
 
     years = [2018, 2019, 2020]
     get_ceda_ftp_data(ftp_object, years)
+
+
+if __name__ == "__main__":
+    main()

@@ -105,7 +105,8 @@ def get_ceda_ftp_data(ftp_object, years):
         file = construct_data_file_name(year)
         try:
             print(f"Trying to get file: {file}")
-            ftp_object.retrbinary("RETR %s" % file, open(file, "wb").write)
+            with open(file, "wb") as f:
+                ftp_object.retrbinary("RETR %s" % file, f.write)
         except ftplib.all_errors as errors:
             print(f"Not able to download file: {file}. Error: {errors}")
 

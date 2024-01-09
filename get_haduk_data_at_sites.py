@@ -134,7 +134,7 @@ def get_data_at_index(cube):
     return data_at_index
 
 
-def plot_1d_data(cube):
+def plot_1d_data(cube, year):
     """
     Plot 1D cube data.
 
@@ -147,10 +147,17 @@ def plot_1d_data(cube):
     plt.grid(True)
 
     plt.axis("tight")
-    #plt.xticks(rotation=90)
+    # plt.xticks(rotation=90)
     plt.xlabel("Month")
+    plt.title(f"Average monthly air temperature, {year}")
     #TODO improve axes and title
     plt.show()
+
+
+def get_season_year(cube):
+    year = cube.coord('season_year')
+
+    return year
 
 
 def latitude_within_degree(cell):
@@ -226,9 +233,12 @@ def main():
         april_monthly_temps = subset_by_date_bounds(cube, 4, 10, 4, 25)
         plot_cube_map(april_monthly_temps)
 
+        # Get the year of the data
+        year = get_season_year(april_monthly_temps)
+
         # Plot annual temperature data at specific location
         data_at_index = get_data_at_index(cube)
-        plot_1d_data(data_at_index)
+        plot_1d_data(data_at_index, year)
 
         #subset_by_coordinates(cube , 100000, 101000)
 

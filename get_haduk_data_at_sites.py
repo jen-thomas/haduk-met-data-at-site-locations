@@ -3,9 +3,10 @@
 import iris
 import os
 import matplotlib.pyplot as plt
-import iris.plot as iplt
 import iris.quickplot as qplt
 from iris.time import PartialDateTime
+import iris.analysis
+import numpy as np
 
 
 def list_files(directory):
@@ -235,6 +236,17 @@ def plot_cube_map(cube, year):
     plt.close()
 
 
+def get_min_annual_temperature(cube):
+
+    min_temperature = cube.data.min()
+    index_min_temperature = np.where(cube.data == min_temperature)
+
+    print("Min temperature", min_temperature)
+    print("Index", index_min_temperature)
+
+    return index_min_temperature
+
+
 def main():
 
     met_data_dir = "ceda_data"
@@ -258,6 +270,8 @@ def main():
         plot_1d_data(data_at_index, year)
 
         #subset_by_coordinates(cube , 100000, 101000)
+
+        get_min_annual_temperature(cube)
 
 
 if __name__ == "__main__":

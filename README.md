@@ -1,7 +1,7 @@
 # haduk-met-data-at-site-locations
 Extracting HadUK meteorology data at a set of locations. 
 
-This repository downloads data from the Had-UK GRID and extracts variables from a set of specified locations.
+This repository downloads data from the Had-UK GRID and extracts variables from a specified location.
 
 ## Data
 

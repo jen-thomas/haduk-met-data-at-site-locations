@@ -9,6 +9,14 @@ from iris.time import PartialDateTime
 
 
 def list_files(directory):
+    """
+    List all NetCDF files in a directory.
+
+    :param directory: str
+        Name of the directory
+    :return: list
+
+    """
 
     nc_files_list = []
 
@@ -20,6 +28,17 @@ def list_files(directory):
 
 
 def load_data_into_iris(data_directory, file_list):
+    """
+    Load NetCDF files into Iris cubes.
+
+    :param data_directory: str
+        Name of the directory containing the files
+    :param file_list: list
+        List of the files to load
+    :return: cubes
+        Iris cubes containing the data
+
+    """
 
     filepaths = []
     for file in file_list:
@@ -32,6 +51,15 @@ def load_data_into_iris(data_directory, file_list):
 
 
 def explore_netcdf_file(cube):
+    """
+    Explore the data.
+
+    :param cube: cube
+        Cube containing the data.
+    :return: None
+
+    """
+
     print("Cube name:", cube.standard_name)
     print("Cube units:", cube.units)
     print("Cube shape:", cube.shape)
@@ -40,6 +68,15 @@ def explore_netcdf_file(cube):
 
 
 def check_coordinate_names_units(cube):
+    """
+    Check details of coordinates in cube.
+
+    :param cube: cube
+        Cube to describe.
+    :return: None
+
+    """
+
     cube_latitude = cube.coord("latitude")
     print(f"Latitude var name: {cube_latitude.standard_name}; Units: {cube_latitude.units} ")
 
@@ -57,6 +94,23 @@ def check_coordinate_names_units(cube):
 
 
 def subset_by_date_bounds(cube, min_month, min_day, max_month, max_day):
+    """
+    Subset a cube by date bounds.
+
+    :param cube: cube
+    :param min_month: int
+        Month of lower date bound
+    :param min_day: int
+        Day of month of lower date bound
+    :param max_month: int
+        Month of upper date bound
+    :param max_day: int
+        Day of upper date bound
+    :return: cube
+        Data within the bounding dates
+
+    """
+
     daterange = iris.Constraint(
         time=lambda cell: PartialDateTime(month=min_month, day=min_day) <= cell.point < PartialDateTime(month=max_month, day=max_day))
 
@@ -66,12 +120,29 @@ def subset_by_date_bounds(cube, min_month, min_day, max_month, max_day):
 
 
 def get_data_at_index(cube):
+    """
+    Get the data from the cube according to the indices specified for each dimension.
+
+    :param cube: cube
+    :return: cube
+        Data within the index specified
+
+    """
+
     data_at_index = cube[::, 600, 600]
 
     return data_at_index
 
 
 def plot_1d_data(cube):
+    """
+    Plot 1D cube data.
+
+    :param cube: cube
+    :return: None
+
+    """
+
     qplt.plot(cube)
     plt.grid(True)
 
@@ -81,10 +152,32 @@ def plot_1d_data(cube):
 
 
 def latitude_within_degree(cell):
+    """
+    Define latitudinal constraints for data subsetting.
+
+    :param cell: cell
+    :return: cell
+        Cell values
+    """
+
     return 52.4 < cell < 52.5
 
 
 def subset_by_coordinates(cube, min_lat, max_lat):
+    """
+    Subset data by latitude coordinates.
+
+    :param cube: cube
+        Data to subset
+    :param min_lat: float
+        Minimum latitude bound
+    :param max_lat: float
+        Maximum latitude bound
+    :return: cube
+        Subsetted data
+
+    """
+
     location_lat = iris.Constraint(name="air_temperature", projection_y_coordinate=latitude_within_degree)
 
     cube.extract(location_lat)
@@ -94,13 +187,21 @@ def subset_by_coordinates(cube, min_lat, max_lat):
         print(sub_cube)
 
         data_at_location_lat = sub_cube.extract(location_lat)
-        print("************************")
         print(data_at_location_lat)
 
     return data_at_location_lat
 
 
 def plot_cube_map(cube):
+    """
+    Plot map of data with coastlines and colour defining the dataset parameter.
+
+    :param cube: cube
+        Data to plot
+    :return: None
+
+    """
+    
     plt.figure(figsize=(12, 5))
     plt.subplot(121)
     qplt.contourf(cube, 15)

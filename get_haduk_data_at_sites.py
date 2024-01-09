@@ -5,7 +5,6 @@ import os
 import matplotlib.pyplot as plt
 import iris.plot as iplt
 import iris.quickplot as qplt
-import datetime
 from iris.time import PartialDateTime
 
 
@@ -42,13 +41,19 @@ def explore_netcdf_file(cube):
 
 def check_coordinate_names_units(cube):
     cube_latitude = cube.coord("latitude")
-    print(f"Latitude var name: {cube_latitude.standard_name}; Units: {cube_latitude.units} ", )
+    print(f"Latitude var name: {cube_latitude.standard_name}; Units: {cube_latitude.units} ")
 
     cube_longitude = cube.coord("longitude")
-    print(f"Longitude var name: {cube_longitude.standard_name}; Units: {cube_longitude.units} ", )
+    print(f"Longitude var name: {cube_longitude.standard_name}; Units: {cube_longitude.units} ")
+
+    cube_projection_y_coordinate = cube.coord("projection_y_coordinate")
+    print(f"Y coord projection var name: {cube_projection_y_coordinate.standard_name}; Units: {cube_projection_y_coordinate.units} ")
+
+    cube_projection_x_coordinate = cube.coord("projection_x_coordinate")
+    print(f"X coord projection var name: {cube_projection_x_coordinate.standard_name}; Units: {cube_projection_x_coordinate.units} ")
 
     cube_time = cube.coord("time")
-    print(f"Time var name: {cube_time.standard_name}; Units: {cube_time.units} ", )
+    print(f"Time var name: {cube_time.standard_name}; Units: {cube_time.units} ")
 
 
 def subset_by_date_bounds(cube, min_month, min_day, max_month, max_day):
@@ -60,7 +65,42 @@ def subset_by_date_bounds(cube, min_month, min_day, max_month, max_day):
     return data_within_daterange
 
 
-def plot_cube(cube):
+def get_data_at_index(cube):
+    data_at_index = cube[::, 600, 600]
+
+    return data_at_index
+
+
+def plot_1d_data(cube):
+    qplt.plot(cube)
+    plt.grid(True)
+
+    plt.axis("tight")
+
+    iplt.show()
+
+
+def latitude_within_degree(cell):
+    return 52.4 < cell < 52.5
+
+
+def subset_by_coordinates(cube, min_lat, max_lat):
+    location_lat = iris.Constraint(name="air_temperature", projection_y_coordinate=latitude_within_degree)
+
+    cube.extract(location_lat)
+    print(cube)
+
+    for sub_cube in cube.slices(['projection_y_coordinate', 'projection_x_coordinate']):
+        print(sub_cube)
+
+        data_at_location_lat = sub_cube.extract(location_lat)
+        print("************************")
+        print(data_at_location_lat)
+
+    return data_at_location_lat
+
+
+def plot_cube_map(cube):
     plt.figure(figsize=(12, 5))
     plt.subplot(121)
     qplt.contourf(cube, 15)
@@ -79,9 +119,15 @@ def main():
         explore_netcdf_file(cube)
         check_coordinate_names_units(cube)
 
+        # Plot average April monthly temperatures across the UK
         april_monthly_temps = subset_by_date_bounds(cube, 4, 10, 4, 25)
+        plot_cube_map(april_monthly_temps)
 
-        plot_cube(april_monthly_temps)
+        # Plot annual temperature data at specific location
+        data_at_index = get_data_at_index(cube)
+        plot_1d_data(data_at_index)
+
+        #subset_by_coordinates(cube , 100000, 101000)
 
 
 if __name__ == "__main__":

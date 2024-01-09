@@ -2,6 +2,11 @@
 
 import iris
 import os
+import matplotlib.pyplot as plt
+import iris.plot as iplt
+import iris.quickplot as qplt
+import datetime
+from iris.time import PartialDateTime
 
 
 def list_files(directory):
@@ -46,7 +51,24 @@ def check_coordinate_names_units(cube):
     print(f"Time var name: {cube_time.standard_name}; Units: {cube_time.units} ", )
 
 
-if __name__ == "__main__":
+def subset_by_date_bounds(cube, min_month, min_day, max_month, max_day):
+    daterange = iris.Constraint(
+        time=lambda cell: PartialDateTime(month=min_month, day=min_day) <= cell.point < PartialDateTime(month=max_month, day=max_day))
+
+    data_within_daterange = cube.extract(daterange)
+
+    return data_within_daterange
+
+
+def plot_cube(cube):
+    plt.figure(figsize=(12, 5))
+    plt.subplot(121)
+    qplt.contourf(cube, 15)
+    plt.gca().coastlines()
+    iplt.show()
+
+
+def main():
 
     met_data_dir = "ceda_data"
 
@@ -56,3 +78,11 @@ if __name__ == "__main__":
     for cube in cubes[0:3]:
         explore_netcdf_file(cube)
         check_coordinate_names_units(cube)
+
+        april_monthly_temps = subset_by_date_bounds(cube, 4, 10, 4, 25)
+
+        plot_cube(april_monthly_temps)
+
+
+if __name__ == "__main__":
+    main()

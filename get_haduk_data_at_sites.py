@@ -120,7 +120,7 @@ def subset_by_date_bounds(cube, min_month, min_day, max_month, max_day):
     return data_within_daterange
 
 
-def get_data_at_index(cube):
+def get_data_at_index(cube, proj_y_coord, proj_x_coord):
     """
     Get the data from the cube according to the indices specified for each dimension.
 
@@ -130,7 +130,7 @@ def get_data_at_index(cube):
 
     """
 
-    data_at_index = cube[::, 600, 600]
+    data_at_index = cube[::, proj_y_coord, proj_x_coord]
 
     return data_at_index
 
@@ -236,15 +236,15 @@ def plot_cube_map(cube, year):
     plt.close()
 
 
-def get_min_annual_temperature(cube):
+def get_index_min_annual_temperature(cube):
 
     min_temperature = cube.data.min()
-    index_min_temperature = np.where(cube.data == min_temperature)
+    min_temperature_index = cube.data.argmin()
+    index = np.unravel_index(min_temperature_index, cube.shape)
 
     print("Min temperature", min_temperature)
-    print("Index", index_min_temperature)
 
-    return index_min_temperature
+    return index
 
 
 def main():
@@ -265,13 +265,10 @@ def main():
         year = get_season_year(april_monthly_temps)
         plot_cube_map(april_monthly_temps, year)
 
-        # Plot annual temperature data at specific location
-        data_at_index = get_data_at_index(cube)
+        # Plot annual temperature data at location of minimum temperature
+        index_min_temperature = get_index_min_annual_temperature(cube)
+        data_at_index = get_data_at_index(cube, index_min_temperature[1], index_min_temperature[2])
         plot_1d_data(data_at_index, year)
-
-        #subset_by_coordinates(cube , 100000, 101000)
-
-        get_min_annual_temperature(cube)
 
 
 if __name__ == "__main__":

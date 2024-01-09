@@ -154,6 +154,15 @@ def plot_1d_data(cube, year):
 
 
 def get_season_year(cube):
+    """
+    Get the year.
+
+    :param cube: cube
+    :return: int
+        Return year as an integer
+
+    """
+    
     season_year_att = cube.coord('season_year')
     year = int(season_year_att.points[0])
 

@@ -173,47 +173,6 @@ def get_season_year(cube):
     return year
 
 
-def latitude_within_degree(cell):
-    """
-    Define latitudinal constraints for data subsetting.
-
-    :param cell: cell
-    :return: cell
-        Cell values
-    """
-
-    return 52.4 < cell < 52.5
-
-
-def subset_by_coordinates(cube, min_lat, max_lat):
-    """
-    Subset data by latitude coordinates.
-
-    :param cube: cube
-        Data to subset
-    :param min_lat: float
-        Minimum latitude bound
-    :param max_lat: float
-        Maximum latitude bound
-    :return: cube
-        Subsetted data
-
-    """
-
-    location_lat = iris.Constraint(name="air_temperature", projection_y_coordinate=latitude_within_degree)
-
-    cube.extract(location_lat)
-    print(cube)
-
-    for sub_cube in cube.slices(['projection_y_coordinate', 'projection_x_coordinate']):
-        print(sub_cube)
-
-        data_at_location_lat = sub_cube.extract(location_lat)
-        print(data_at_location_lat)
-
-    return data_at_location_lat
-
-
 def plot_cube_map(cube, year):
     """
     Plot map of data with coastlines and colour defining the dataset parameter.

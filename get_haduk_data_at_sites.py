@@ -229,6 +229,8 @@ def main():
         data_at_index = get_data_at_index(cube, index_min_temperature[1], index_min_temperature[2])
         plot_1d_data(data_at_index, year)
 
+        # TODO get the month of the minimum temperature and plot the maps of this month rather than April.
+
 
 if __name__ == "__main__":
     main()

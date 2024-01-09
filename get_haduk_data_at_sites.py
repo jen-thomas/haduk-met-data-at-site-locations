@@ -153,7 +153,7 @@ def plot_1d_data(cube, year):
 
     fname = f"{year}_average_monthly_air_temperature.png"
     plt.savefig(fname, format='png')
-
+    plt.close()
 
 
 def get_season_year(cube):
@@ -213,7 +213,7 @@ def subset_by_coordinates(cube, min_lat, max_lat):
     return data_at_location_lat
 
 
-def plot_cube_map(cube):
+def plot_cube_map(cube, year):
     """
     Plot map of data with coastlines and colour defining the dataset parameter.
 
@@ -227,7 +227,12 @@ def plot_cube_map(cube):
     plt.subplot(121)
     qplt.contourf(cube, 15)
     plt.gca().coastlines()
-    iplt.show()
+    plt.title(f"Average air temperature across the UK, April {year}")
+
+    fname = f"{year}_april_average_air_temperature.png"
+    plt.savefig(fname, format='png')
+
+    plt.close()
 
 
 def main():
@@ -243,10 +248,10 @@ def main():
 
         # Plot average April monthly temperatures across the UK
         april_monthly_temps = subset_by_date_bounds(cube, 4, 10, 4, 25)
-        plot_cube_map(april_monthly_temps)
 
         # Get the year of the data
         year = get_season_year(april_monthly_temps)
+        plot_cube_map(april_monthly_temps, year)
 
         # Plot annual temperature data at specific location
         data_at_index = get_data_at_index(cube)

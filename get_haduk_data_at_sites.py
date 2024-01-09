@@ -147,8 +147,10 @@ def plot_1d_data(cube):
     plt.grid(True)
 
     plt.axis("tight")
-
-    iplt.show()
+    #plt.xticks(rotation=90)
+    plt.xlabel("Month")
+    #TODO improve axes and title
+    plt.show()
 
 
 def latitude_within_degree(cell):
@@ -201,7 +203,7 @@ def plot_cube_map(cube):
     :return: None
 
     """
-    
+
     plt.figure(figsize=(12, 5))
     plt.subplot(121)
     qplt.contourf(cube, 15)

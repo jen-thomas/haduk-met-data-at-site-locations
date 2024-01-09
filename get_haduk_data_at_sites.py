@@ -150,7 +150,10 @@ def plot_1d_data(cube, year):
     plt.xticks(which='both', rotation=45, minor=True)
     plt.xlabel("Month")
     plt.title(f"Average monthly air temperature, {year}")
-    plt.show()
+
+    fname = f"{year}_average_monthly_air_temperature.png"
+    plt.savefig(fname, format='png')
+
 
 
 def get_season_year(cube):
@@ -162,7 +165,7 @@ def get_season_year(cube):
         Return year as an integer
 
     """
-    
+
     season_year_att = cube.coord('season_year')
     year = int(season_year_att.points[0])
 

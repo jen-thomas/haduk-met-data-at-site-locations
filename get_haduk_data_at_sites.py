@@ -144,13 +144,12 @@ def plot_1d_data(cube, year):
     """
 
     qplt.plot(cube)
-    plt.grid(True)
+    plt.grid(True, which='both', color='grey', alpha=0.5, linestyle='-', linewidth=0.5)
 
     plt.axis("tight")
-    # plt.xticks(rotation=90)
+    plt.xticks(which='both', rotation=45, minor=True)
     plt.xlabel("Month")
     plt.title(f"Average monthly air temperature, {year}")
-    #TODO improve axes and title
     plt.show()
 
 

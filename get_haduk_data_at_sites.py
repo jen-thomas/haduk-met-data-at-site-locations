@@ -168,7 +168,9 @@ def get_season_year(cube):
     """
 
     season_year_att = cube.coord('season_year')
-    year = int(season_year_att.points[0])
+    year = int(min(season_year_att.points))
+
+    print("Data from:", year)
 
     return year
 
@@ -201,7 +203,7 @@ def get_index_min_annual_temperature(cube):
     min_temperature_index = cube.data.argmin()
     index = np.unravel_index(min_temperature_index, cube.shape)
 
-    print("Min temperature", min_temperature)
+    print("Min temperature:", min_temperature)
 
     return index
 
@@ -217,19 +219,22 @@ def main():
         explore_netcdf_file(cube)
         check_coordinate_names_units(cube)
 
-        # Plot average April monthly temperatures across the UK
-        april_monthly_temps = subset_by_date_bounds(cube, 4, 10, 4, 25)
-
         # Get the year of the data
-        year = get_season_year(april_monthly_temps)
-        plot_cube_map(april_monthly_temps, year)
+        year = get_season_year(cube)
 
-        # Plot annual temperature data at location of minimum temperature
+        # Find location of minimum temperature for each year and plot monthly temperatures at this location
         index_min_temperature = get_index_min_annual_temperature(cube)
         data_at_index = get_data_at_index(cube, index_min_temperature[1], index_min_temperature[2])
         plot_1d_data(data_at_index, year)
 
         # TODO get the month of the minimum temperature and plot the maps of this month rather than April.
+
+        # Plot average April monthly temperatures across the UK
+        #april_monthly_temps = subset_by_date_bounds(cube, 4, 10, 4, 25)
+        #plot_cube_map(april_monthly_temps, year)
+
+
+
 
 
 if __name__ == "__main__":

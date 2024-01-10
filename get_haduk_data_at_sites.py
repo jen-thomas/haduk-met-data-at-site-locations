@@ -85,10 +85,12 @@ def check_coordinate_names_units(cube):
     print(f"Longitude var name: {cube_longitude.standard_name}; Units: {cube_longitude.units} ")
 
     cube_projection_y_coordinate = cube.coord("projection_y_coordinate")
-    print(f"Y coord projection var name: {cube_projection_y_coordinate.standard_name}; Units: {cube_projection_y_coordinate.units} ")
+    print(f"Y coord projection var name: {cube_projection_y_coordinate.standard_name}; "
+          f"Units: {cube_projection_y_coordinate.units} ")
 
     cube_projection_x_coordinate = cube.coord("projection_x_coordinate")
-    print(f"X coord projection var name: {cube_projection_x_coordinate.standard_name}; Units: {cube_projection_x_coordinate.units} ")
+    print(f"X coord projection var name: {cube_projection_x_coordinate.standard_name}; "
+          f"Units: {cube_projection_x_coordinate.units} ")
 
     cube_time = cube.coord("time")
     print(f"Time var name: {cube_time.standard_name}; Units: {cube_time.units} ")
@@ -101,12 +103,8 @@ def subset_by_date_bounds(cube, min_month, max_month):
     :param cube: cube
     :param min_month: int
         Month of lower date bound
-    :param min_day: int
-        Day of month of lower date bound
     :param max_month: int
         Month of upper date bound
-    :param max_day: int
-        Day of upper date bound
     :return: cube
         Data within the bounding dates
 
@@ -125,6 +123,10 @@ def get_monthly_data_at_index(cube, proj_y_coord, proj_x_coord):
     Get the data from the cube according to the indices specified for each dimension.
 
     :param cube: cube
+    :param proj_y_coord: int
+        Y coordinate of index
+    :param proj_x_coord: int
+        X coordinate of index
     :return: cube
         Data within the index specified
 
@@ -137,9 +139,12 @@ def get_monthly_data_at_index(cube, proj_y_coord, proj_x_coord):
 
 def plot_1d_data(cube, year, lat, lon):
     """
-    Plot 1D cube data.
+    Plot 1D cube data. Use parameters year, lat and lon for plot title and labelling.
 
     :param cube: cube
+    :param year: int
+    :param lat: float
+    :param lon: float
     :return: None
 
     """
@@ -178,10 +183,13 @@ def get_season_year(cube):
 
 def plot_cube_map(cube, month, year):
     """
-    Plot map of data with coastlines and colour defining the dataset parameter.
+    Plot map of data with coastlines and colour defining the dataset parameter. Use parameters month and year for plot
+    title.
 
     :param cube: cube
         Data to plot
+    :param month: int
+    :param year: int
     :return: None
 
     """
@@ -200,6 +208,14 @@ def plot_cube_map(cube, month, year):
 
 
 def get_index_min_annual_temperature(cube):
+    """
+    Get the index of the data point with the minimum temperature for this cube.
+
+    :param cube: cube
+        Data from which to get the index
+    :return: index
+
+    """
 
     min_temperature = cube.data.min()
     min_temperature_index = cube.data.argmin()
@@ -211,6 +227,14 @@ def get_index_min_annual_temperature(cube):
 
 
 def get_location_of_point(cube_single_point):
+    """
+    Get the geographical location of the data point where a cube with a single point is specified.
+
+    :param cube_single_point: cube
+        Individual data point in cube data structure.
+    :return: float, float
+
+    """
 
     lat = cube_single_point.coord("latitude").points[0]
     lon = cube_single_point.coord("longitude").points[0]
@@ -221,6 +245,13 @@ def get_location_of_point(cube_single_point):
 
 
 def get_month_of_indexed_point(index):
+    """
+    Use the index which is time, to get the month associated with the point.
+
+    :param index: index
+    :return: int
+
+    """
 
     month = index[0] + 1 # add one to the index to get the number associated with the month of the year
     print(f"Month: {month}")

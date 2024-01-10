@@ -20,14 +20,14 @@ See steps 5-7 below for how to access and download the data.
 
 This code and instructions have been tested on Debian Bookworm with Python 3.11.
 
-This repository uses (Iris)[https://scitools-iris.readthedocs.io/en/latest/index.html]  which is not tested for use on Mac or Windows (see https://scitools-iris.readthedocs.io/en/latest/installing.html#installing-iris)
+This repository uses [Iris](https://scitools-iris.readthedocs.io/en/latest/index.html)  which is not tested for use on Mac or Windows (see [installation instructions](https://scitools-iris.readthedocs.io/en/latest/installing.html#installing-iris)).
 
 1. Clone this repository `git clone https://github.com/jen-thomas/haduk-met-data-at-site-locations.git`
 2. In the cloned directory, create a virtual environment `python3 -m venv venv`
 3. Activate the virtual environment. If using bash, do `. venv/bin/activate`
 4. Install the packages from `requirements.txt`: `pip3 install -r requirements.txt`
-5. Create a user account on the (CEDA website)[https://services.ceda.ac.uk/cedasite/myceda]. 
-6. Configure your FTP account. Login, then go to (MyCEDA)[https://services.ceda.ac.uk/cedasite/myceda]  then click on Configure FTP Account. Click on the link to Create Password. For further help with this step, consult https://help.ceda.ac.uk/article/280-ftp. 
+5. Create a user account on the [CEDA website](https://services.ceda.ac.uk/cedasite/myceda). 
+6. Configure your FTP account. Login, then go to [MyCEDA](https://services.ceda.ac.uk/cedasite/myceda) then click on Configure FTP Account. Click on the link to Create Password. For the [help pages about FTP](https://help.ceda.ac.uk/article/280-ftp) for further help with this step. 
 7. Run the script `download_haduk_data.py` to download three NetCDF files containing the meteorology data. 
 8. Run the script `get_haduk_data_at_sites.py` to explore and plot the data.
 
@@ -88,8 +88,8 @@ This repository provides a proof of concept of how to download, read, explore an
 
 ## References
 
-Bell, J.R., Alderson, L., Izera, D., Kruger, T., Parker, S., Pickup, J., Shortall, C.R., Taylor, M.S., Verrier, P. and Harrington, R. (2015) ‘Long‐term phenological trends, species accumulation rates, aphid traits and climate: five decades of change in migrating aphids’, Journal of Animal Ecology. Edited by K. Wilson, 84(1), pp. 21–34. Available at: https://doi.org/10.1111/1365-2656.12282.
+Bell, J.R., Alderson, L., Izera, D., Kruger, T., Parker, S., Pickup, J., Shortall, C.R., Taylor, M.S., Verrier, P. and Harrington, R. (2015) ‘Long‐term phenological trends, species accumulation rates, aphid traits and climate: five decades of change in migrating aphids’, Journal of Animal Ecology. Edited by K. Wilson, 84(1), pp. 21–34. Available at: [https://doi.org/10.1111/1365-2656.12282](https://doi.org/10.1111/1365-2656.12282).
 
-Met Office, Hollis, D., McCarthy, M., Kendon, M., Legg, T. (2023) 'HadUK-Grid Gridded Climate Observations on a 1km grid over the UK, v1.2.0.ceda (1836-2022)', NERC EDS Centre for Environmental Data Analysis, 30 August 2023. Available at: https://dx.doi.org/10.5285/46f8c1377f8849eeb8570b8ac9b26d86.
+Met Office, Hollis, D., McCarthy, M., Kendon, M., Legg, T. (2023) 'HadUK-Grid Gridded Climate Observations on a 1km grid over the UK, v1.2.0.ceda (1836-2022)', NERC EDS Centre for Environmental Data Analysis, 30 August 2023. Available at: [https://dx.doi.org/10.5285/46f8c1377f8849eeb8570b8ac9b26d86](https://dx.doi.org/10.5285/46f8c1377f8849eeb8570b8ac9b26d86).
 
  

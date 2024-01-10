@@ -190,7 +190,8 @@ def plot_cube_map(cube, month, year):
     plt.subplot(121)
     qplt.contourf(cube, 15)
     plt.gca().coastlines()
-    plt.title(f"Average air temperature across the UK during month of minimum temperature, {year} {month}")
+    plt.title(f"Average air temperature across the UK during month of minimum temperature. \n"
+              f" {year} (month = {month})")
 
     fname = f"{year}_average_air_temperature.png"
     plt.savefig(fname, format='png')
@@ -219,7 +220,7 @@ def get_location_of_point(cube_single_point):
 
 def get_month_of_indexed_point(index):
 
-    month = index[0] + 1
+    month = index[0] + 1 # add one to the index to get the number associated with the month of the year
     print(f"Month: {month}")
 
     return month
@@ -236,10 +237,10 @@ def main():
         explore_netcdf_file(cube)
         check_coordinate_names_units(cube)
 
-        # Get the year of the data
+        # Get the year of the data.
         year = get_season_year(cube)
 
-        # Find location of minimum temperature for each year and plot monthly temperatures at this location
+        # Find location of minimum temperature for each year and plot monthly temperatures at this location.
         index_min_temperature = get_index_min_annual_temperature(cube)
         monthly_data_at_index = get_monthly_data_at_index(cube, index_min_temperature[1], index_min_temperature[2])
         lat, lon = get_location_of_point(monthly_data_at_index)
@@ -248,12 +249,9 @@ def main():
 
         # Get the month of the minimum temperature and plot the temperature across the UK for this month.
         month = get_month_of_indexed_point(index_min_temperature)
-
         month_lowest_temperature = subset_by_date_bounds(cube, month, month)
+
         plot_cube_map(month_lowest_temperature, month, year)
-
-
-
 
 
 if __name__ == "__main__":

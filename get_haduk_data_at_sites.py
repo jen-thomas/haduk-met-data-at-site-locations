@@ -94,7 +94,7 @@ def check_coordinate_names_units(cube):
     print(f"Time var name: {cube_time.standard_name}; Units: {cube_time.units} ")
 
 
-def subset_by_date_bounds(cube, min_month, min_day, max_month, max_day):
+def subset_by_date_bounds(cube, min_month, max_month):
     """
     Subset a cube by date bounds.
 
@@ -113,14 +113,14 @@ def subset_by_date_bounds(cube, min_month, min_day, max_month, max_day):
     """
 
     daterange = iris.Constraint(
-        time=lambda cell: PartialDateTime(month=min_month, day=min_day) <= cell.point < PartialDateTime(month=max_month, day=max_day))
+        time=lambda cell: PartialDateTime(month=min_month) <= cell.point <= PartialDateTime(month=max_month))
 
     data_within_daterange = cube.extract(daterange)
 
     return data_within_daterange
 
 
-def get_data_at_index(cube, proj_y_coord, proj_x_coord):
+def get_monthly_data_at_index(cube, proj_y_coord, proj_x_coord):
     """
     Get the data from the cube according to the indices specified for each dimension.
 
@@ -176,7 +176,7 @@ def get_season_year(cube):
     return year
 
 
-def plot_cube_map(cube, year):
+def plot_cube_map(cube, month, year):
     """
     Plot map of data with coastlines and colour defining the dataset parameter.
 
@@ -190,9 +190,9 @@ def plot_cube_map(cube, year):
     plt.subplot(121)
     qplt.contourf(cube, 15)
     plt.gca().coastlines()
-    plt.title(f"Average air temperature across the UK, April {year}")
+    plt.title(f"Average air temperature across the UK during month of minimum temperature, {year} {month}")
 
-    fname = f"{year}_april_average_air_temperature.png"
+    fname = f"{year}_average_air_temperature.png"
     plt.savefig(fname, format='png')
 
     plt.close()
@@ -217,6 +217,14 @@ def get_location_of_point(cube_single_point):
     return lat, lon
 
 
+def get_month_of_indexed_point(index):
+
+    month = index[0] + 1
+    print(f"Month: {month}")
+
+    return month
+
+
 def main():
 
     met_data_dir = "ceda_data"
@@ -233,16 +241,16 @@ def main():
 
         # Find location of minimum temperature for each year and plot monthly temperatures at this location
         index_min_temperature = get_index_min_annual_temperature(cube)
-        data_at_index = get_data_at_index(cube, index_min_temperature[1], index_min_temperature[2])
-        lat, lon = get_location_of_point(data_at_index)
+        monthly_data_at_index = get_monthly_data_at_index(cube, index_min_temperature[1], index_min_temperature[2])
+        lat, lon = get_location_of_point(monthly_data_at_index)
 
-        plot_1d_data(data_at_index, year, lat, lon)
+        plot_1d_data(monthly_data_at_index, year, lat, lon)
 
-        # TODO get the month of the minimum temperature and plot the maps of this month rather than April.
+        # Get the month of the minimum temperature and plot the temperature across the UK for this month.
+        month = get_month_of_indexed_point(index_min_temperature)
 
-        # Plot average April monthly temperatures across the UK
-        #april_monthly_temps = subset_by_date_bounds(cube, 4, 10, 4, 25)
-        #plot_cube_map(april_monthly_temps, year)
+        month_lowest_temperature = subset_by_date_bounds(cube, month, month)
+        plot_cube_map(month_lowest_temperature, month, year)
 
 
 

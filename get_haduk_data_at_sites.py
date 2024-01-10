@@ -135,7 +135,7 @@ def get_data_at_index(cube, proj_y_coord, proj_x_coord):
     return data_at_index
 
 
-def plot_1d_data(cube, year):
+def plot_1d_data(cube, year, lat, lon):
     """
     Plot 1D cube data.
 
@@ -150,7 +150,8 @@ def plot_1d_data(cube, year):
     plt.axis("tight")
     plt.xticks(which='both', rotation=45, minor=True)
     plt.xlabel("Month")
-    plt.title(f"Average monthly air temperature, {year}")
+    plt.title(f"Average monthly air temperatures at location with lowest \n temperature across the UK, {year}.")
+    plt.figtext(x=0.65, y=0.8, s=f"Lat: {round(lat, 2)} Lon: {round(lon, 2)}")
 
     fname = f"{year}_average_monthly_air_temperature.png"
     plt.savefig(fname, format='png')
@@ -208,6 +209,14 @@ def get_index_min_annual_temperature(cube):
     return index
 
 
+def get_location_of_point(cube_single_point):
+
+    lat = cube_single_point.coord("latitude").points[0]
+    lon = cube_single_point.coord("longitude").points[0]
+
+    return lat, lon
+
+
 def main():
 
     met_data_dir = "ceda_data"
@@ -225,7 +234,9 @@ def main():
         # Find location of minimum temperature for each year and plot monthly temperatures at this location
         index_min_temperature = get_index_min_annual_temperature(cube)
         data_at_index = get_data_at_index(cube, index_min_temperature[1], index_min_temperature[2])
-        plot_1d_data(data_at_index, year)
+        lat, lon = get_location_of_point(data_at_index)
+
+        plot_1d_data(data_at_index, year, lat, lon)
 
         # TODO get the month of the minimum temperature and plot the maps of this month rather than April.
 

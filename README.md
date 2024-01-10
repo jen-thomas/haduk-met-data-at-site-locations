@@ -27,7 +27,7 @@ This repository uses [Iris](https://scitools-iris.readthedocs.io/en/latest/index
 3. Activate the virtual environment. If using bash, do `. venv/bin/activate`
 4. Install the packages from `requirements.txt`: `pip3 install -r requirements.txt`
 5. Create a user account on the [CEDA website](https://services.ceda.ac.uk/cedasite/myceda). 
-6. Configure your FTP account. Login, then go to [MyCEDA](https://services.ceda.ac.uk/cedasite/myceda) then click on Configure FTP Account. Click on the link to Create Password. For the [help pages about FTP](https://help.ceda.ac.uk/article/280-ftp) for further help with this step. 
+6. Configure your FTP account. Login, then go to [MyCEDA](https://services.ceda.ac.uk/cedasite/myceda) then click on Configure FTP Account. Click on the link to Create Password. See the [help pages about FTP](https://help.ceda.ac.uk/article/280-ftp) for further help with this step. 
 7. Run the script `download_haduk_data.py` to download three NetCDF files containing the meteorology data. 
 8. Run the script `get_haduk_data_at_sites.py` to explore and plot the data.
 

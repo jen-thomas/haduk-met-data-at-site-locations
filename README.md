@@ -73,7 +73,7 @@ The month and year of the data points are represented by the parameters, `month_
 
 ### Minimum temperatures
 
-From the three years of interest, the coldest average monthly temperatures (-5.08$%deg$C) were found in March 2018 at the location with latitude: 57.07 and longitude: -3.66. Minimum temperatures in the other two years did not fall as low, reaching only -3.65 deg C in January 2019 and -3.56 deg C in February 2020, although they were found to be in very similar locations (2019: latitude: 57.07 and longitude: -3.49; latitude: 57.07 and longitude: -3.66). 
+From the three years of interest, the coldest average monthly temperatures (-5.08 deg C) were found in March 2018 at the location with latitude: 57.07 and longitude: -3.66. Minimum temperatures in the other two years did not fall as low, reaching only -3.65 deg C in January 2019 and -3.56 deg C in February 2020, although they were found to be in very similar locations (2019: latitude: 57.07 and longitude: -3.49; latitude: 57.07 and longitude: -3.66). 
 
 An example of the output plots for 2018 are shown below: 
 

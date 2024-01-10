@@ -205,7 +205,7 @@ def get_index_min_annual_temperature(cube):
     min_temperature_index = cube.data.argmin()
     index = np.unravel_index(min_temperature_index, cube.shape)
 
-    print("Min temperature:", min_temperature)
+    print(f"Min temperature: {round(min_temperature, 2)}")
 
     return index
 
@@ -214,6 +214,8 @@ def get_location_of_point(cube_single_point):
 
     lat = cube_single_point.coord("latitude").points[0]
     lon = cube_single_point.coord("longitude").points[0]
+
+    print(f"Latitude: {round(lat, 2)} and Longitude: {round(lon, 2)}")
 
     return lat, lon
 
@@ -237,6 +239,8 @@ def main():
         explore_netcdf_file(cube)
         check_coordinate_names_units(cube)
 
+        print("****** Minimum temperature data summary ******")
+
         # Get the year of the data.
         year = get_season_year(cube)
 
@@ -252,6 +256,8 @@ def main():
         month_lowest_temperature = subset_by_date_bounds(cube, month, month)
 
         plot_cube_map(month_lowest_temperature, month, year)
+
+        print("****** End temperature data summary ******")
 
 
 if __name__ == "__main__":

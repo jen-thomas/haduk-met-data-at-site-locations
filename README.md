@@ -77,6 +77,9 @@ From the three years of interest, the coldest average monthly temperatures (-5.0
 
 An example of the output plots for 2018 are shown below: 
 
+![Average air temperature across the UK in March 2018.](example_plots/2018_average_air_temperature.png)
+
+![Average monthly air temperature at the location of the lowest average air temperature in March 2018.](example_plots/2018_average_monthly_air_temperature.png)
 
 ## Summary and conclusions
 

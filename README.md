@@ -51,6 +51,8 @@ The following plots will be created and saved as `PNG` files in the repository d
 
 ### Data file exploration
 
+NetCDF data files are downloaded from the CEDA FTP site. This step requires the user to create an account.
+
 NetCDF are binary files containing all parameters and metadata describing such parameters within the file. These are read into Python using the Iris module, which uses a data structure called a cube to represent the data.
 
 Initial exploration of the data files allows us to understand the data structure. The shape and number of dimensions describe the structure of the gridded data. Printing a summary of the data once it has been read into an Iris cube shows this information, as well as all of the parameters that are included in the data file. 
